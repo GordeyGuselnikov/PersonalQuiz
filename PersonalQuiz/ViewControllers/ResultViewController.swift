@@ -19,7 +19,7 @@ final class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        
+        updateResult()
     }
 
     // MARK: - IBActions
@@ -34,7 +34,18 @@ final class ResultViewController: UIViewController {
 
 // MARK: - Private Methods
 private extension ResultViewController {
+    
     func updateResult() {
-        
+        if let resultAnimal = Dictionary(grouping: answers, by: { $0.animal })
+            .sorted(by: {$0.value.count > $1.value.count})
+            .first?.key
+        {
+            updateUI(animal: resultAnimal)
+        } else { return }
+    }
+    
+    func updateUI(animal: Animal) {
+        resultLabel.text = "Вы - \(animal.rawValue)"
+        difinitionLabel.text = animal.definition
     }
 }
